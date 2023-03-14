@@ -93,6 +93,7 @@ app.get('/healthyStates', async (req, res) => {
             {
                 $project: {
                     _id: "$state",
+                    state : '$state',
                     mortality: {
                         $round: [{ $divide: ['$death', '$infected'] }, 5]
                     }
@@ -102,14 +103,14 @@ app.get('/healthyStates', async (req, res) => {
                 $match: {
                     mortality: { $lt: 0.005 }
                 }
-            },
-            {
-                $project: {
-                    _id: "$_id",
-                    state: "$_id",
-                    mortality: 1
-                }
             }
+            // {
+            //     $project: {
+            //         _id: "$_id",
+            //         state: "$_id",
+            //         mortality: 1
+            //     }
+            // }
         ])
 
         res.json({ data: states });
